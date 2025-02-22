@@ -1,3 +1,10 @@
+### Custom
+
+replies.db
+replies.db-journal
+*.xml
+report_*.txt
+
 ### Python.gitignore
 
 # Byte-compiled / optimized / DLL files
