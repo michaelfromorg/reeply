@@ -92,7 +92,7 @@ const ThreadVisualization: React.FC = () => {
   return (
     <div style={{ padding: "1rem" }}>
       {/* Vertical scroll container for the threads */}
-      <div ref={parentRef} style={{ height: "80vh", overflow: "auto" }}>
+      <div ref={parentRef} className="h-full overflow-auto">
         <div
           style={{
             height: rowVirtualizer.getTotalSize(),
@@ -110,7 +110,7 @@ const ThreadVisualization: React.FC = () => {
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  width: "100%",
+                  width: 220 + daysCount * DAY_CELL_WIDTH,
                   transform: `translateY(${virtualRow.start}px)`,
                   display: "flex",
                   alignItems: "center",
@@ -128,13 +128,14 @@ const ThreadVisualization: React.FC = () => {
                     flex: 1,
                     position: "relative",
                     height: "100%",
-                    overflowX: "auto",
                   }}
                 >
                   <div
                     style={{
                       position: "relative",
                       minWidth: daysCount * DAY_CELL_WIDTH,
+                      height: "100%",
+                      willChange: "transform",
                     }}
                   >
                     {Array.from({ length: daysCount }).map((_, dayIndex) => {
@@ -157,8 +158,8 @@ const ThreadVisualization: React.FC = () => {
                           {count > 0 && (
                             <div
                               style={{
-                                width: Math.min(20, count * 5), // dot size roughly proportional to message count
-                                height: Math.min(20, count * 5),
+                                width: Math.min(12, count * 5), // dot size roughly proportional to message count
+                                height: Math.min(12, count * 5),
                                 borderRadius: "50%",
                                 backgroundColor: "blue",
                                 position: "absolute",
