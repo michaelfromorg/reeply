@@ -5,7 +5,7 @@ description = "Manage your texts. Local-first?"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "notion-client>=2.3.0",
-    "python-dotenv>=1.0.1",
-    "requests>=2.32.3",
+  "notion-client>=2.3.0",
+  "python-dotenv>=1.0.1",
+  "requests>=2.32.3",
 ]

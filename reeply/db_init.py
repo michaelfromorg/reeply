@@ -3,6 +3,7 @@ from pathlib import Path
 
 DB_PATH = Path("replies.db")
 
+
 def init_db():
     """Initialize the SQLite database with our schema"""
     conn = sqlite3.connect(DB_PATH)
@@ -72,6 +73,7 @@ def init_db():
     conn.commit()
     return conn
 
+
 def get_last_run_date(conn):
     """Get the date of the last successful run, or None if first run"""
     cursor = conn.cursor()
@@ -79,12 +81,13 @@ def get_last_run_date(conn):
     result = cursor.fetchone()
     return result[0] if result and result[0] else None
 
+
 if __name__ == "__main__":
     print(f"Initializing database at {DB_PATH}...")
     conn = init_db()
     print("Database initialized successfully!")
-    
+
     last_run = get_last_run_date(conn)
     print(f"Last run date: {last_run or 'No previous runs'}")
-    
+
     conn.close()
