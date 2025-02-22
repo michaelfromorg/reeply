@@ -12,17 +12,8 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-white overflow-hidden flex flex-col">
-        <header className="bg-gray-100 shadow">
-          <div className="max-w-7xl mx-auto py-4 px-4">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Message Threads
-            </h1>
-          </div>
-        </header>
-        <main className="flex-1">
-          <ThreadVisualization />
-        </main>
+      <div className="w-screen h-screen bg-white overflow-hidden">
+        <ThreadVisualization />
       </div>
     </QueryClientProvider>
   );

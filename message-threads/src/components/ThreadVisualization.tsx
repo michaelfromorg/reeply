@@ -20,7 +20,6 @@ const ColumnVirtualizer: React.FC<ColumnVirtualizerProps> = ({
   minDate,
   messageCounts,
 }) => {
-  // Use the same scroll container as the outer vertical list (by id)
   const columnVirtualizer = useVirtualizer({
     horizontal: true,
     count: daysCount,
@@ -105,7 +104,6 @@ const DateIndicator: React.FC<DateIndicatorProps> = ({
     };
 
     scrollEl.addEventListener("scroll", onScroll);
-    // trigger initial calculation
     onScroll();
 
     return () => scrollEl.removeEventListener("scroll", onScroll);
@@ -121,6 +119,9 @@ const DateIndicator: React.FC<DateIndicatorProps> = ({
         padding: "0.5rem",
         borderBottom: "1px solid #ddd",
         zIndex: 3,
+        height: "50px",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <strong>Showing:</strong> {visibleRange.start.toISOString().split("T")[0]}{" "}
@@ -130,10 +131,8 @@ const DateIndicator: React.FC<DateIndicatorProps> = ({
 };
 
 const ThreadVisualization: React.FC = () => {
-  // Outer container ref (vertical & horizontal scrolling)
   const parentRef = useRef<HTMLDivElement>(null);
 
-  // Infinite query to load threads
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<Thread[]>({
       initialPageParam: 0,
@@ -147,7 +146,6 @@ const ThreadVisualization: React.FC = () => {
 
   const threads: Thread[] = useMemo(() => data?.pages.flat() || [], [data]);
 
-  // Determine overall timeline range using each thread's first and last message dates
   const { minDate, maxDate } = useMemo(() => {
     if (threads.length === 0) {
       const now = new Date();
@@ -168,7 +166,6 @@ const ThreadVisualization: React.FC = () => {
     return Math.ceil((maxDate.getTime() - minDate.getTime()) / ONE_DAY) + 1;
   }, [minDate, maxDate]);
 
-  // Row virtualization for the thread list
   const rowVirtualizer = useVirtualizer({
     count: threads.length,
     getScrollElement: () => parentRef.current,
@@ -176,7 +173,6 @@ const ThreadVisualization: React.FC = () => {
     overscan: 5,
   });
 
-  // Fetch next page when scrolling near the bottom
   useEffect(() => {
     const virtualItems = rowVirtualizer.getVirtualItems();
     if (virtualItems.length === 0) return;
@@ -196,7 +192,6 @@ const ThreadVisualization: React.FC = () => {
     fetchNextPage,
   ]);
 
-  // Group messages by day for each thread
   const getMessageCountByDay = (thread: Thread): Record<string, number> => {
     const counts: Record<string, number> = {};
     thread.messages.forEach((msg) => {
@@ -207,19 +202,20 @@ const ThreadVisualization: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      {/* Date indicator fixed at the top */}
+    <div style={{ width: "100vw", height: "100vh" }}>
       <DateIndicator minDate={minDate} DAY_CELL_WIDTH={DAY_CELL_WIDTH} />
-      {/* Outer scroll container for both vertical and horizontal scrolling */}
       <div
         ref={parentRef}
         id="thread-scroll-container"
-        style={{ height: "80vh", overflow: "auto" }}
+        style={{
+          height: "calc(100vh - 50px)",
+          overflow: "auto",
+          position: "relative",
+        }}
       >
         <div
           style={{
             height: rowVirtualizer.getTotalSize(),
-            // width now covers frozen column (220px) plus the timeline
             width: 220 + daysCount * DAY_CELL_WIDTH,
             position: "relative",
           }}
@@ -242,7 +238,6 @@ const ThreadVisualization: React.FC = () => {
                   borderBottom: "1px solid #ddd",
                 }}
               >
-                {/* Frozen phone number column */}
                 <div
                   style={{
                     width: 200,
@@ -256,7 +251,6 @@ const ThreadVisualization: React.FC = () => {
                 >
                   {thread.address}
                 </div>
-                {/* Timeline container with horizontally virtualized columns */}
                 <div
                   style={{
                     flex: 1,
