@@ -1,0 +1,7 @@
+[project]
+name = "reeply"
+version = "0.1.0"
+description = "Manage your texts. Local-first?"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
