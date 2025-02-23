@@ -4,7 +4,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { getThreads, Thread } from "../lib/api";
 
 const THREAD_LIMIT = 50;
-const DAY_CELL_WIDTH = 20; // width in pixels per day
+const DAY_CELL_WIDTH = 5; // width in pixels per day
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
 type DateIndicatorProps = {
@@ -45,7 +45,7 @@ const DateIndicator: React.FC<DateIndicatorProps> = ({
         position: "sticky",
         top: 0,
         background: "#f7f7f7",
-        padding: "0.5rem",
+        padding: "0.1rem",
         borderBottom: "1px solid #ddd",
         zIndex: 3,
         height: "50px",
@@ -187,13 +187,14 @@ const ThreadVisualization: React.FC = () => {
               >
                 <div
                   style={{
-                    width: 200,
+                    width: 120,
                     padding: "0 10px",
                     flexShrink: 0,
                     position: "sticky",
                     left: 0,
                     background: "white",
                     zIndex: 2,
+                    textAlign: "right",
                   }}
                 >
                   {thread.address}
@@ -237,8 +238,8 @@ const ThreadVisualization: React.FC = () => {
                             {count > 0 && (
                               <div
                                 style={{
-                                  width: Math.min(12, count * 3),
-                                  height: Math.min(12, count * 3),
+                                  width: Math.min(5, count * 3),
+                                  height: Math.min(5, count * 3),
                                   borderRadius: "50%",
                                   backgroundColor: "blue",
                                   position: "absolute",

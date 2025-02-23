@@ -175,7 +175,8 @@ class NotionSync:
         if recent_messages:
             try:
                 processed_messages = []
-                for msg in recent_messages:
+                # Process only the last 5 messages
+                for msg in recent_messages[-5:]:
                     # Handle string messages that need to be parsed
                     if isinstance(msg, str):
                         try:
@@ -198,7 +199,7 @@ class NotionSync:
                     else:
                         logging.warning(f"Message missing required fields: {msg}")
 
-                messages_summary = "\n".join(processed_messages)
+                messages_summary = "\n\n".join(processed_messages)
                 logging.debug(f"Processed messages summary: {messages_summary}")
 
             except Exception as e:
