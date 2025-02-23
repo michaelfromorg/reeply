@@ -124,8 +124,10 @@ const DateIndicator: React.FC<DateIndicatorProps> = ({
         alignItems: "center",
       }}
     >
-      <strong>Showing:</strong> {visibleRange.start.toISOString().split("T")[0]}{" "}
-      — {visibleRange.end.toISOString().split("T")[0]}
+      <strong style={{ marginRight: "4px" }}>Showing:{` `}</strong> {` `}
+      {visibleRange.start.toISOString().split("T")[0]}
+      {` to `}
+      {visibleRange.end.toISOString().split("T")[0]}
     </div>
   );
 };
@@ -170,7 +172,7 @@ const ThreadVisualization: React.FC = () => {
     count: threads.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 60,
-    overscan: 5,
+    overscan: 10,
   });
 
   useEffect(() => {
@@ -202,13 +204,13 @@ const ThreadVisualization: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{ width: "100vw", height: "calc(100vh)", overflow: "hidden" }}>
       <DateIndicator minDate={minDate} DAY_CELL_WIDTH={DAY_CELL_WIDTH} />
       <div
         ref={parentRef}
         id="thread-scroll-container"
         style={{
-          height: "calc(100vh - 50px)",
+          height: "calc(100vh - 70px)",
           overflow: "auto",
           position: "relative",
         }}
@@ -240,13 +242,15 @@ const ThreadVisualization: React.FC = () => {
               >
                 <div
                   style={{
-                    width: 200,
+                    width: 120,
                     padding: "0 10px",
                     flexShrink: 0,
                     position: "sticky",
                     left: 0,
                     background: "white",
                     zIndex: 2,
+                    textAlign: "right",
+                    justifyContent: "flex-end",
                   }}
                 >
                   {thread.address}
